@@ -1,0 +1,29 @@
+﻿Data Diary
+
+
+I received a list of Full Compliance Evaluations dating back to 2006 from Michigan EGLE as well as a list of sources that are currently mandated to be inspected, by their class (Major, Sm Opt Out, and Megasite).
+
+
+1. Fce-historical-analysis.ipynb
+   1. After reading in the data, and merging with some of my own scraped data, I began calculating a duration between dates of inspections
+      1. I isolated sources that only had one document 
+      2. I worked first with sources that had multiple documents. I calculated a [‘dif’] column by subtracting a source’s full compliance evaluation date from the one before it. The earliest documents were a base and became NaN, so I extracted them from the analysis.
+      3. For the sources with one document, I created a [‘dif’] column by calculating a difference between the data of evaluation and the date the permit was issued. If it was issued before 2007, I capped the permit approval date at 2007-01-01, because the data only went back that far.
+      4. I brought these two dataframes back together and created a categorizer to determine whether the evaluation was overdue at the time of inspection (this is actually a bit later in the notebook)
+         1. I gave a 3 month grace period, and calculated anything above that as overdue.
+         2. Megasites require FCE every 3 years, Opt Outs require every 5 and Major sources every 2. Based on those measurements I determined whether the [‘dif’] was above or below that number plus .25 (the 3 month grace period).
+         3. I created multiple categories in the hopes I could use this for logistic regression
+      5. I took all of the documents that are the most recent for each source and I calculate the time to date (4/28/2022, the date the FOIA was fulfilled) and used a similar categorizer to determine whether it was currently overdue.
+      6. I grouped by District, which have similar amounts of sources, to determine which district was the most behind schedule.
+2. Geocoding sources
+   1. I used google’s API to geocode sources
+   2. I brought those points into QGIS along with a shapefile of census tracts to do a join by location
+   3. I exported the attributes table to use to join with evaluations
+3. New-data-merge.ipynb
+   1. I merged the source list with the geocoded address list
+   2. I merged the geocoded sources with the census tract level demographic data
+   3. I merged that with my evaluated FCE list
+
+
+4. logistic-reg-fce.ipynb
+   1. I began attempting to use logistic regression to determine the variation in whether a source would likely be overdue based on median income and white population, but there weren’t strong correlations and it needed a more robust approach.
