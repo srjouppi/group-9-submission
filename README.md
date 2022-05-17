@@ -3,6 +3,6 @@
 ``` data-diary.txt ``` 
 Contains methodolgy and instructions for reproducing the work in the following notebooks:
 
-```fce-historical-analysis.ipynb```
-```new-data-merge.ipynb```
-```logistic-reg-fce.ipynb```
+1. ```fce-historical-analysis.ipynb```
+2. ```new-data-merge.ipynb```
+3. ```logistic-reg-fce.ipynb```
